@@ -8,8 +8,9 @@ public class PlayerAttack : MonoBehaviour {
 	[SerializeField] SpriteRenderer ArrowGFX;
 	[SerializeField] Slider BowPowerSlider;
 	[SerializeField] Transform Bow;
+	[SerializeField] Animator animator;
 
-	[Range(0, 10)]
+	[Range(0, 20)]
 	[SerializeField] float BowPower;
 
 	[Range(0, 3)]
@@ -21,6 +22,7 @@ public class PlayerAttack : MonoBehaviour {
 	private void Start() {
 		BowPowerSlider.value = 0f;
 		BowPowerSlider.maxValue = MaxBowCharge;
+		// animator = gameObject.GetComponent<Animator>();             
 	}
 
 	private void Update() {
@@ -30,7 +32,7 @@ public class PlayerAttack : MonoBehaviour {
 			FireBow();
 		} else {
 			if (BowCharge > 0f) {
-				BowCharge -= 1f * Time.deltaTime;
+				BowCharge -= 1.2f * Time.deltaTime;
 			} else {
 				BowCharge = 0f;
 				CanFire = true;
@@ -43,7 +45,7 @@ public class PlayerAttack : MonoBehaviour {
 	void ChargeBow() {
 		ArrowGFX.enabled = true;
 		
-		BowCharge += Time.deltaTime;
+		BowCharge += Time.deltaTime  * 2f;
 
 		BowPowerSlider.value = BowCharge;
 
@@ -55,7 +57,7 @@ public class PlayerAttack : MonoBehaviour {
 	void FireBow() {
 		if (BowCharge > MaxBowCharge) BowCharge = MaxBowCharge;
 
-		float ArrowSpeed = BowCharge + BowPower;
+		float ArrowSpeed = BowCharge * BowPower;
 		float ArrowDamage = BowCharge * BowPower;
 
 		float angle = Utility.AngleTowardsMouse(Bow.position);

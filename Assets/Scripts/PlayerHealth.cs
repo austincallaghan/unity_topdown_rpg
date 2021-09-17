@@ -13,6 +13,11 @@ public class PlayerHealth : MonoBehaviour {
 		healthSlider.maxValue = maxHealth;
 	}
 
+	private void PlayerDied() {
+		LevelManager.instance.GameOver();
+		gameObject.SetActive(false);
+	}
+
 	public void UpdateHealth(float mod) {
 		health += mod;
 
@@ -21,7 +26,7 @@ public class PlayerHealth : MonoBehaviour {
 		} else if (health <= 0f) {
 			health = 0f;
 			healthSlider.value = health;
-			Destroy(gameObject);
+			PlayerDied();
 		}
 	}
 
